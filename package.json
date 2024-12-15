@@ -9,6 +9,7 @@
     "@mui/material": "^6.2.0",
     "@mui/x-data-grid": "^7.23.2",
     "@mui/x-date-pickers": "^7.23.2",
+    "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
     "dayjs": "^1.11.13",
@@ -44,5 +45,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
