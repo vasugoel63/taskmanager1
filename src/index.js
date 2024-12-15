@@ -7,11 +7,7 @@ import store from './store';
 import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-if (process.env.NODE_ENV === 'production') {
-  if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ !== 'undefined') {
-    window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function () {};
-  }
-}
+
 
 root.render(
   <Provider store={store}>
