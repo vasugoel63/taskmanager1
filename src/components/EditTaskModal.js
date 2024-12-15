@@ -9,12 +9,13 @@ import { TextField, FormControl, InputLabel, Select, MenuItem, Switch, FormContr
 import { useDispatch, useSelector } from 'react-redux';
 // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 // import { LocalizationProvider, DesktopDatePicker } from '@mui/x-date-pickers';
-import { getsingleTask, clearstAction } from '../store/singletaskSlice';
+import { getsingleTask, clearstAction, updatesingleTask } from '../store/singletaskSlice';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { addTaskByUser } from '../store/taskSlice';
+import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 const style = {
   position: 'absolute',
@@ -31,7 +32,9 @@ const style = {
 export default function EditTaskModal({open,onClose, taskId}){
   const dispatch = useDispatch();
   const singtasksuccessdata = useSelector((state)=>state.singletask.success);
-  const singtaskcontentdata = useSelector((state)=>state.singletask.content);
+  const singtaskcontentdata = useSelector((state)=>state.singletask.data);
+  const singtaskupdatesuccessdata = useSelector((state)=>state.singletask.updatesuccess);
+  const errorData = useSelector((state)=> state.singletask.error);
   const [title, setTitle] = useState('');
   const [priority, setPriority] = useState(1);
   const [status, setStatus] = useState(false);
@@ -42,24 +45,36 @@ export default function EditTaskModal({open,onClose, taskId}){
       const [task, setTask] = useState({});
       useEffect(()=>{
         if(open){
+          setTitle('');
+          setPriority(1);
+          setStatus(false); 
+          setStartTime(null); 
+          setEndTime(null);
           dispatch(getsingleTask({id: taskId}));
         }
       },[taskId]);
       useEffect(()=>{
         if(singtasksuccessdata && singtaskcontentdata){
-          console.log(singtaskcontentdata.data);
           setTask(singtaskcontentdata.data);
           const taskData = singtaskcontentdata.data;
-    console.log(taskData);
-
-    setTitle(taskData.title);
-    setPriority(taskData.priority);
-    setStatus(taskData.status ); 
-    setStartTime(dayjs(taskData.startTime)); 
-    setEndTime(dayjs(taskData.endTime));
-    dispatch(clearstAction());
+          setTitle(taskData.title);
+          setPriority(taskData.priority);
+          setStatus(taskData.status ); 
+          setStartTime(dayjs(taskData.startTime)); 
+          setEndTime(dayjs(taskData.endTime));
+          dispatch(clearstAction());
         }
-      },[singtaskcontentdata, singtasksuccessdata]);
+
+        if(singtaskupdatesuccessdata){
+          toast.success('Task Updated Successfully');
+          onClose();
+          dispatch(clearstAction());
+        }
+        if(errorData){
+          console.log(errorData);
+          dispatch(clearstAction());
+        }
+      },[singtaskcontentdata, singtasksuccessdata, singtaskupdatesuccessdata]);
   
 
 
@@ -71,7 +86,7 @@ export default function EditTaskModal({open,onClose, taskId}){
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ title, priority, status, startTime, endTime });
+    dispatch(updatesingleTask({title, priority, status, startTime, endTime, taskid: taskId }));
   };
   return (
     <div>

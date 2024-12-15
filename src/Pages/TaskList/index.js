@@ -16,6 +16,8 @@ export default function TaskListPage(){
     const tasksuccessdata = useSelector((state)=>state.tasks.success);
     const taskcreatesuccessdata = useSelector((state)=>state.tasks.createsuccess);
     const taskdeletesuccessdata = useSelector((state)=> state.tasks.delsuccess);
+      const singtaskupdatesuccessdata = useSelector((state)=>state.singletask.updatesuccess);
+  
     const tasksdata = useSelector((state)=>state.tasks.data);
     const userdata = JSON.parse(localStorage.getItem('user')) || "";
     const userid= userdata.id;
@@ -25,7 +27,7 @@ export default function TaskListPage(){
     const [selectedIds, setSelectedIds] = useState([]); 
     useEffect(()=>{
         dispatch(getTasks({userid: userid, status, priority}));
-    },[taskcreatesuccessdata, status, priority, taskdeletesuccessdata]);
+    },[taskcreatesuccessdata, status, priority, taskdeletesuccessdata, singtaskupdatesuccessdata]);
     useEffect(()=>{
         if(taskcreatesuccessdata){
             toast.success('Task Created Successfully');

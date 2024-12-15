@@ -3,6 +3,7 @@ import Login from "./Pages/Login";
 import TaskListPage from "./Pages/TaskList";
 import UserDashboard from "./Pages/Dashboard";
 import PrivateRoute from "./PrivateRoute";
+import Home from "./Pages/Home";
 import './App.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,6 +15,7 @@ function App() {
        <BrowserRouter>
        
       <Routes>
+      <Route path="/"element={<Home/>}/>
 
         <Route path="/login"element={<Login/>}/>
         <Route path="/tasklist" element={

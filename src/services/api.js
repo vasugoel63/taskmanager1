@@ -85,6 +85,7 @@ export const getSingleTaskapi = async(data)=>{
 export const updateSingleTaskapi = async(data)=>{
     try{
         const token = localStorage.getItem('token');
+        console.log(data);
         const response = await axios.post(`${BASE_URL}/user/updatetaskdetails`, data, {
             headers: {
                 Authorization: `Bearer ${token}`,
